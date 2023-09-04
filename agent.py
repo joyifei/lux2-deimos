@@ -78,7 +78,8 @@ class Agent():
         game_state = obs_to_game_state(step, self.env_cfg, obs)
         for units in game_state.units.values():
             for u in units.values():
-                u.action_queue = u.action_queue.tolist()
+                if isinstance(u.action_queue, np.ndarray):
+                    u.action_queue = u.action_queue.tolist()
 
         feature = self.feature_parser._get_feature(game_state, self.player)
         va = self.action_parser.get_valid_actions(game_state, int(self.player[-1]))
