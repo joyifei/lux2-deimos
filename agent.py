@@ -12,7 +12,7 @@ from lux.config import EnvConfig
 from lux.kit import GameState, obs_to_game_state
 
 from implementations.env.parsers.action_parser_full_act import ActionParser
-from implementations.env.parsers.feature_parser import FeatureParser
+from implementations.env.parsers.feature_parser import FeatureParser, LuxFeature
 from implementations.policy.impl.multi_task_softmax_policy_impl import (_gen_pi, _sample_til_valid)
 from implementations.policy.net import Net
 from implementations.env.player import Player
@@ -82,6 +82,9 @@ class Agent():
                     u.action_queue = u.action_queue.tolist()
 
         feature = self.feature_parser._get_feature(game_state, self.player)
+        #put feature's item whose key start with 'action_' into a new dictionary called action_features, new key remove 'action_'
+        action_features = { key.replace('action_', ''): value for key, value in feature.items() if key.startswith('action_')}
+        feature = LuxFeature(feature['global_feature'], feature['map_feature'], action_features)
         va = self.action_parser.get_valid_actions(game_state, int(self.player[-1]))
 
         np2torch = lambda x, dtype: torch.tensor(x)[None].type(dtype)

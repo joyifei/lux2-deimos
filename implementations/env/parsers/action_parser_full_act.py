@@ -250,6 +250,7 @@ class ActionParser():
             # else:
             #     survival_need = 0
             # water_cost = (lichen_strains_size + 1) // env_cfg.LICHEN_WATERING_COST_FACTOR + 1
+
             if factory.cargo.water >= (lichen_strains_size + 1) // env_cfg.LICHEN_WATERING_COST_FACTOR + 1:
                 adj_xy = factory.pos + factory_adjacent_delta_xy
                 adj_xy = adj_xy[(adj_xy >= 0).all(axis=1) & (adj_xy < EnvParam.map_size).all(axis=1)]

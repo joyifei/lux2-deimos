@@ -298,7 +298,15 @@ class FeatureParser():
         global_feature = np.array(list(global_feature.values()))
         map_feature = np.array(list(map_feature.values()))
 
-        return LuxFeature(global_feature, map_feature, action_feature)
+        return {"global_feature":global_feature,
+                 "map_feature":map_feature,
+                 "action_unit_indicator": action_feature['unit_indicator'],
+                 "action_type":action_feature['type'],
+                 "action_direction":action_feature['direction'],
+                 "action_resource": action_feature['resource'],
+                 "action_amount": action_feature['amount'],
+                 "action_repeat": action_feature['repeat'],
+                 "action_n":action_feature['n']}
 
     @staticmethod
     def log_env_stats(env_stats):
